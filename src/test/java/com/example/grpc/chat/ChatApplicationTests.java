@@ -175,15 +175,9 @@ class ChatApplicationTests {
         assertEquals(MessageType.SYSTEM_JOIN, clientAReceived.get(1).getType());
 
         // Now Client A sends "Hello World" via ChatStream
-        CountDownLatch broadcastLatchA = new CountDownLatch(1);
-        CountDownLatch broadcastLatchB = new CountDownLatch(1);
-
-        List<ChatMessage> chatStreamClientReceived = new CopyOnWriteArrayList<>();
         StreamObserver<ChatMessage> chatStreamResponseObserver = new StreamObserver<>() {
             @Override
-            public void onNext(ChatMessage value) {
-                chatStreamClientReceived.add(value);
-            }
+            public void onNext(ChatMessage value) {}
             @Override
             public void onError(Throwable t) {}
             @Override
