@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package chat;
+
+option java_multiple_files = true;
+option java_package = "com.example.grpc.chat";
+option java_outer_classname = "ChatProto";
+
+// Service definition for the chat application
+service ChatService {
+  rpc JoinRoom(JoinRoomRequest) returns (stream ChatMessage);
+  rpc ChatStream(stream ChatMessage) returns (stream ChatMessage);
+  rpc GetRoomUsers(RoomRequest) returns (UserListResponse);
+  rpc LeaveRoom(LeaveRoomRequest) returns (LeaveRoomResponse);
+}
+
+// Message types
+message ChatMessage {
+  string message_id = 1;
+  string room_id = 2;
+  string user_id = 3;
+  string username = 4;
+  string content = 5;
+  int64 timestamp = 6;
+  MessageType type = 7;
+}
+
+enum MessageType {
+  TEXT = 0;
+  IMAGE_URL = 1;
+  SYSTEM_JOIN = 2;
+  SYSTEM_LEAVE = 3;
+}
+
+message JoinRoomRequest {
+  string room_id = 1;
+  string user_id = 2;
+  string username = 3;
+}
+
+message RoomRequest {
+  string room_id = 1;
+}
+
+message UserInfo {
+  string user_id = 1;
+  string username = 2;
+}
+
+message UserListResponse {
+  repeated UserInfo users = 1;
+}
+
+message LeaveRoomRequest {
+  string room_id = 1;
+  string user_id = 2;
+}
+
+message LeaveRoomResponse {
+  bool success = 1;
+  string message = 2;
+}
